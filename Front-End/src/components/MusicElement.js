@@ -6,6 +6,16 @@ import { FaPause } from "react-icons/fa"
 const MusicElement = ({ Background, Title, AuthorName, CurrentMusic }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   
+  const start_music = ()=>{
+    audioPlayer = reactaudioplayer.current.audioEl;
+    if (!isPlaying){ 
+      audioPlayer.current.play();
+    }
+    else {
+       reactaudioplayer?.current?.audioEl.current.pause();
+    }
+  }
+  
   const reactaudioplayer = useRef();
   let audioPlayer = reactaudioplayer?.current?.audioEl;
 
@@ -30,15 +40,7 @@ const MusicElement = ({ Background, Title, AuthorName, CurrentMusic }) => {
             }}
             onPause={() => setIsPlaying(false)}
           />
-          <button className="Music-element-circular-inner-wrapper" onClick={()=>{
-            audioPlayer = reactaudioplayer.current.audioEl;
-            if (!isPlaying){ 
-              audioPlayer.current.play();
-            }
-            else {
-               reactaudioplayer?.current?.audioEl.current.pause();
-            }
-          }} 
+          <button className="Music-element-circular-inner-wrapper" onClick={start_music} 
             style={{border:"none"}}>
               
             {isPlaying ? <FaPause className="Music-note" style={{width:"40px", height:"40px"}}/>:<HiMusicNote className="Music-note"/>}
