@@ -10,16 +10,12 @@ function App() {
   const [currentUser, setCurrentUser] = useState("user_1")
   const [currentMusic, setCurrentMusic] = useState("")
 
-  const toggleMusic = (musicSrc) => {
-    setCurrentMusic(musicSrc)
-  }
-
   return (
       <div className='container'>
         <Router>
           <SideBar/>
           <Routes>
-            <Route path='/' element={<Home toggleMusic={toggleMusic} current_user={currentUser}/>}/>
+            <Route path='/' element={<Home current_user={currentUser}/>}/>
             <Route path='/Discover' element={<Discover current_user={currentUser}/>}></Route>
           </Routes>
            <Cursor/>

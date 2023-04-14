@@ -1,121 +1,163 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
-import Card from './Card';
-import CardButton from "./CardButton";
-import { db } from "../lib/init-firebase";
-import { ref, onValue } from "firebase/database";
+import CardButton from './CardButton';
+import { db } from '../lib/init-firebase';
+import { ref, onValue } from 'firebase/database';
+import { AiFillLike, AiFillDislike } from 'react-icons/ai';
+import { RiArrowGoBackFill } from 'react-icons/ri';
+import MusicElement from './MusicElement';
+import ReactAudioPlayer from 'react-audio-player';
 
-import {AiFillLike} from "react-icons/ai";
-import {AiFillDislike} from "react-icons/ai";
-import {RiArrowGoBackFill} from "react-icons/ri";
+function CardPack({ current_user }) {
+  const [cards, setcards] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(cards.length - 1);
+  const [lastDirection, setLastDirection] = useState();
+  // This part is a copy paste from MusicPanel used to manage the musics being played!
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentMusic, setCurrentMusic] = useState(null);
+  const audioPlayerRef = useRef();
 
-function CardPack ({ current_user }) {
-    const [Cards, setCards] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(Cards.length - 1);
-    const [lastDirection, setLastDirection] = useState();
-
-    useEffect(() => {
-      const music_ref = ref(db, `db/Users/${current_user}/discover_cards`);
-      onValue(music_ref, (snapshot) => {
-        const data = snapshot.val();
-        const cards = Object.keys(data).map(key => ({
-          id:key,
-          ...data[key]
-        }));
-        setCards(cards);
-      })
-    }, []);
-
-    useEffect(() => {
-      setCurrentIndex(Cards.length - 1);
-    }, [Cards]);
-
-    // used for outOfFrame closure
-    const currentIndexRef = useRef(currentIndex)
-  
-    const childRefs = useMemo(
-      () =>
-        Array(Cards.length)
-          .fill(0)
-          .map((i) => React.createRef()),
-      [Cards]
-    )
-  
-    const updateCurrentIndex = (val) => {
-      setCurrentIndex(val)
-      currentIndexRef.current = val
+  const toggleMusic = (musicSrc, ForcePause=false) => {
+    const audioPlayer = audioPlayerRef.current.audioEl.current;
+    if(ForcePause){
+      setIsPlaying(false);
+      audioPlayer.pause();
+      return
     }
-  
-    const canGoBack = currentIndex < Cards.length - 1
-  
-    const canSwipe = currentIndex >= 0
-  
-    // set last direction and decrease current index
-    const swiped = (direction, nameToDelete, index) => {
-      setLastDirection(direction)
-      updateCurrentIndex(index - 1)
-      console.log(nameToDelete);
-    }
-  
-    const outOfFrame = (name, idx) => {
-      console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
-      // handle the case in which go back is pressed before card goes outOfFrame
-      currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-      // TODO: when quickly swipe and restore multiple times the same card,
-      // it happens multiple outOfFrame events are queued and the card disappear
-      // during latest swipes. Only the last outOfFrame event should be considered valid
-    }
-  
-    const swipe = async (dir) => {
-      if (canSwipe && currentIndex < Cards.length) {
-        await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
-        console.log(childRefs[currentIndex]);
-      }
-    }
-  
-    // increase current index and show card
-    const goBack = async () => {
-      if (!canGoBack) return
-      const newIndex = currentIndex + 1
-      updateCurrentIndex(newIndex)
-      await childRefs[newIndex].current.restoreCard()
-    }
-  
-    return (
-      <div className='card-system-wrapper'>
-        <div className='cardContainer' style={{
-          position:"relative"
-        }}>
-          {Cards.map((card, index) => (
-            <TinderCard
-              ref={childRefs[index]}
-              className='swipe'
-              key={card.id}
-              onSwipe={(dir) => swiped(dir, card.title, index)}
-              onCardLeftScreen={() => outOfFrame(card.title, index)}
-            >
-                <Card
-                    Title = {card.title}
-                    AuthorName = {card.author_name}
-                    Background = {card.background_image} 
-                    CurrentMusic = {card.src}    
-                />
-            </TinderCard>
-          ))}
-        </div>
 
-        <div className="card-buttons-wrapper">
-            <CardButton icon={
-                <AiFillDislike className="card-button-icon" style={{color:"#fb745d"}}/>
-            } OnClick = {() => swipe('left')} />
-            <CardButton icon={
-                <RiArrowGoBackFill className="card-button-icon" style={{color:"#2bb4c9"}}/>
-            } OnClick = {() => goBack()}/>
-            <CardButton icon={
-                <AiFillLike className="card-button-icon" style={{color:"#4dcc94"}}/>
-            } OnClick = {() => swipe('right')}/>
-        </div>
+    if (isPlaying && musicSrc === currentMusic) {
+      setIsPlaying(false);
+      audioPlayer.pause();
+    } else if (!isPlaying && musicSrc === currentMusic) {
+      setIsPlaying(true);
+      audioPlayer.play();
+    } else {
+      setCurrentMusic(musicSrc);
+      setIsPlaying(true);
+    }
+  };
+
+  useEffect(() => {
+    const musicRef = ref(db, `db/Users/${current_user}/discover_cards`);
+    onValue(musicRef, (snapshot) => {
+      const data = snapshot.val();
+      const cards = Object.keys(data).map((key) => ({
+        id: key,
+        ...data[key],
+      }));
+      setcards(cards);
+    });
+  }, []);
+
+  useEffect(() => {
+    setCurrentIndex(cards.length - 1);
+  }, [cards]);
+
+  // used for outOfFrame closure
+  const currentIndexRef = useRef(currentIndex);
+
+  const childRefs = useMemo(
+    () =>
+      Array(cards.length)
+        .fill(0)
+        .map((i) => React.createRef()),
+    [cards]
+  );
+
+  const updateCurrentIndex = (val) => {
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
+  };
+
+  const canGoBack = currentIndex < cards.length - 1;
+  const canSwipe = currentIndex >= 0;
+
+  // set last direction and decrease current index
+  const swiped = (direction, nameToDelete, index) => {
+    setLastDirection(direction);
+    updateCurrentIndex(index - 1);
+    // When it's swiped stop the music
+    toggleMusic(currentMusic, true);
+  };
+
+  const outOfFrame = (name, idx) => {
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+
+    if (currentIndexRef.current >= idx) {
+      childRefs[idx].current.restoreCard();
+    }
+  };
+
+  const swipe = async (dir) => {
+    if (canSwipe && currentIndex < cards.length) {
+      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+      console.log(childRefs[currentIndex]);
+    }
+  };
+
+  // increase current index and show card
+  const goBack = async () => {
+    if (!canGoBack) {
+      return;
+    }
+
+    const newIndex = currentIndex + 1;
+    updateCurrentIndex(newIndex);
+    await childRefs[newIndex].current.restoreCard();
+  };
+
+  return (
+    <div className='card-system-wrapper'>
+      <div className='cardContainer' style={{ position: "relative" }}>
+        {cards.map((card, index) => (
+          <TinderCard
+            ref={childRefs[index]}
+            className='swipe'
+            key={card.id}
+            onSwipe={(dir) => swiped(dir, card.title, index)}
+            onCardLeftScreen={() => outOfFrame(card.title, index)}
+          >
+            <MusicElement
+              key={card.title}
+              Background={card.background_image}
+              Title={card.title}
+              AuthorName={card.author_name}
+              ToggleMusic={() => { toggleMusic(card.src) }}
+              SelfMusic={card.src}
+              PlayedMusic={currentMusic}
+              IsPlaying={isPlaying}
+              Type={"card"}
+            />
+          </TinderCard>
+        ))}
       </div>
-)}
-
-export default CardPack
+  
+      <div className="card-buttons-wrapper">
+        <CardButton icon={
+          <AiFillDislike className="card-button-icon" style={{ color: "#fb745d" }} />
+        } OnClick={() => swipe('left')} />
+        <CardButton icon={
+          <RiArrowGoBackFill className="card-button-icon" style={{ color: "#2bb4c9" }} />
+        } OnClick={() => goBack()} />
+        <CardButton icon={
+          <AiFillLike className="card-button-icon" style={{ color: "#4dcc94" }} />
+        } OnClick={() => swipe('right')} />
+      </div>
+  
+      {/* This is the individual audio player for the whole page (to avoid concurrent playing)*/}
+      <ReactAudioPlayer
+        ref={audioPlayerRef}
+        src={currentMusic}
+        className='audio-player'
+        style={{ display: "none" }}
+        autoPlay={true}
+        controls
+        onPlay={() => setIsPlaying(true)}
+        onEnded={() => setIsPlaying(false)}
+        onPause={() => setIsPlaying(false)}
+      />
+    </div>
+  )
+}
+  
+export default CardPack;
