@@ -1,4 +1,3 @@
-
-# Plaground and Archives
-Archives/
-PlayGround/
+# Get Rid of the Archives and my PlayGround
+.archives/
+.tests/
