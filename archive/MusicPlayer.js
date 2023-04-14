@@ -5,6 +5,7 @@ import { BsArrowRightShort } from "react-icons/bs"
 import { FaPlay } from "react-icons/fa"
 import { FaPause } from "react-icons/fa"
 
+
 const MusicPlayer = ({  }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
