@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import Cursor from "./components/Cursor";
-import MusicPlayer from "./components/MusicPlayer";
+//import MusicPlayer from "./components/MusicPlayer";
 import SideBar from "./components/SideBar";
 import Home from "./pages/Home";
 import Discover from "./pages/Discover";
