@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import Cursor from "./components/Cursor";
+import Cursor from "./pages/components/Cursor";
 //import MusicPlayer from "./components/MusicPlayer";
-import SideBar from "./components/SideBar";
+import SideBar from "./pages/components/SideBar";
 import Home from "./pages/Home";
 import Discover from "./pages/Discover";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';

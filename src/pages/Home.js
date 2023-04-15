@@ -1,4 +1,4 @@
-import MusicsPanel from "../components/MusicsPanel";
+import MusicsPanel from "./components/MusicsPanel";
 
 const Home = ({ toggleMusic, current_user }) => {
   return (

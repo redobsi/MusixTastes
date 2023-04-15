@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
 import CardButton from './CardButton';
-import { db } from '../lib/init-firebase';
+import { db } from '../../utils/init-firebase';
 import { ref, onValue } from 'firebase/database';
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import { RiArrowGoBackFill } from 'react-icons/ri';

@@ -1,6 +1,6 @@
 import MusicElement from "./MusicElement";
 import { useState, useEffect, useRef } from "react";
-import { db } from "../lib/init-firebase";
+import { db } from "../../utils/init-firebase";
 import { ref, onValue } from "firebase/database";
 import ReactAudioPlayer from 'react-audio-player'
 

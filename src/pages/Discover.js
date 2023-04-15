@@ -1,4 +1,4 @@
-import CardPack from "../components/CardPack"
+import CardPack from "./components/CardPack"
 
 const Discover = ({ current_user }) => {
     return (
