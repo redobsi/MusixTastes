@@ -37,7 +37,7 @@ const MusicsPanel = ({ current_user }) => {
         ...data[key]
       }));
       setMusics(musics);
-      window.api.tell_main("All the musics have been loaded!")
+      window.api.info.tellMain("All the musics have been loaded!")
     })
   }, [current_user]);
 

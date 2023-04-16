@@ -1,6 +1,16 @@
 const { ipcMain } = require('electron');
 
-// These IPCs will be used only for info handling purpose.
-ipcMain.on("tell_main", (event, args) => {
-    console.log(args)
-})
+class InfoIPC{
+    constructor() {
+        this.addTellListener();
+    }
+
+    // Add the tell main listener
+    addTellListener() {
+        ipcMain.on("tell_main", (event, args) => {
+            console.log(args)
+        })
+    }
+}
+
+module.exports = InfoIPC
