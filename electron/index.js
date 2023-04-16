@@ -1,9 +1,10 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain, shell } = require('electron')
 const path = require('path')
 const isDev = require("electron-is-dev")
+require('./ipcs_listeners/info_ipcs')
 
 function createWindow () {
-  const win = new BrowserWindow({
+  const window = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -12,9 +13,13 @@ function createWindow () {
     }
   })
 
-  win.loadURL(
+  window.loadURL(
     isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}`
   )
+  // Have the DevTools Automatically open when the page load.
+  if (isDev) window.webContents.openDevTools();
+  
+
 }
 
 app.whenReady().then(() => {
@@ -32,3 +37,5 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+

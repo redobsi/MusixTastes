@@ -4,7 +4,6 @@ import { db } from "../../utils/init-firebase";
 import { ref, onValue } from "firebase/database";
 import ReactAudioPlayer from 'react-audio-player'
 
-
 const MusicsPanel = ({ current_user }) => {
 
   const [Musics, setMusics] = useState([]);
@@ -38,9 +37,9 @@ const MusicsPanel = ({ current_user }) => {
         ...data[key]
       }));
       setMusics(musics);
-      console.log(musics);
+      window.api.tell_main("All the musics have been loaded!")
     })
-  }, []);
+  }, [current_user]);
 
 
   return (
@@ -50,7 +49,9 @@ const MusicsPanel = ({ current_user }) => {
                                               Background={music.background_image} 
                                               Title={music.title} 
                                               AuthorName = {music.author_name}
-                                              ToggleMusic = {() => {toggleMusic(music.src)}}
+                                              ToggleMusic = {() => {
+                                                toggleMusic(music.src)
+                                              }}
                                               SelfMusic = {music.src}
                                               PlayedMusic={currentMusic}
                                               IsPlaying = {isPlaying}
