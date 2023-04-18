@@ -7,7 +7,6 @@ making the code shorter and more manageable.
 */
 
 
-
 // Import required modules
 const { PythonShell } = require('python-shell');
 const { ipcRenderer } = require('electron');
