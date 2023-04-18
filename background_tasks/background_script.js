@@ -1,3 +1,10 @@
+/* 📝 Description:
+This script provides a concise and reusable implementation of a background task,
+designed to be inherited by other scripts. It handles load balancing, communication with Python scripts,
+and error logging using electron-log. The BackgroundScript class simplifies the setup and execution of background tasks,
+making the code shorter and more manageable. */
+
+
 // Import required modules
 const { PythonShell } = require('python-shell');
 const { ipcRenderer } = require('electron');
