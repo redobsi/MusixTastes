@@ -1,0 +1,25 @@
+<script type="module">
+    // Import required modules
+    import BackgroudScript from './background_script.js';
+    const { ipcRenderer } = require('electron');
+
+    // Define a class for the one-shot background task
+    class FirebaseTask extends BackgroudScript {
+        constructor() { super('firebase', 'firebase_script') }
+
+        // Callback for Python message event
+        onPythonMessage(results) {
+            try {
+                const parsedJSON = JSON.parse(results);
+                // Set up IPC to send result to JS via bouncing it off main process
+                ipcRenderer.send('ONE_SHOT_RESULT', { data: parsedJSON });
+            } catch (error) {
+                log.error(error);
+            }
+        }
+    }
+
+    // Create an instance of the FirebaseTask class and start the background task
+    const firebaseTask = new FirebaseTask();
+    firebaseTask.start();    
+</script>

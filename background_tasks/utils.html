@@ -1,0 +1,27 @@
+<script type="module">
+    // Import required modules
+    import BackgroudScript from './background_script.js';
+    const { ipcRenderer } = require('electron');
+    const log = require('electron-log');
+    
+    // Define a class for the one-shot background task
+    class UtilsTask extends BackgroudScript {
+        // ADD SCRIPT IF NEEDED
+        constructor() { super('utils', '...') }
+
+        // Callback for Python message event
+        onPythonMessage(results) {
+            try {
+                const parsedJSON = JSON.parse(results);
+                // Set up IPC to send result to JS via bouncing it off main process
+                ipcRenderer.send('...', { data: parsedJSON });
+            } catch (error) {
+                log.error(error);
+            }
+        }
+
+    }
+    let utilsTask = new UtilsTask();
+    utilsTask.start(); 
+    
+</script>

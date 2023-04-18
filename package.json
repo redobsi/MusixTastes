@@ -15,8 +15,11 @@
     "@testing-library/user-event": "^13.5.0",
     "cross-env": "^7.0.3",
     "electron-is-dev": "^2.0.0",
+    "electron-load-balancer": "^3.0.0",
+    "electron-log": "^4.4.8",
     "firebase": "^9.19.1",
     "framer-motion": "^10.12.2",
+    "python-shell": "^5.0.0",
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.2.0",
@@ -27,6 +30,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "electron-start": "electron .",
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
@@ -55,7 +59,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.0.1",
-    "electron": "^24.1.2",
+    "electron": "^9.4.4",
     "electron-builder": "^23.6.0",
     "wait-on": "^7.0.1"
   }

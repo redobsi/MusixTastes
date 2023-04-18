@@ -1,11 +1,12 @@
-const { ipcRenderer, contextBridge } = require("electron");
-const InfoAPI = require("./api_functions/info_api")
+const { contextBridge } = require("electron");
+const UtilsAPI = require("./api_functions/utils_api.test");
+const FirebaseAPI = require("./api_functions/firebase_api");
 
 // Window Application Interface
 class MainAPI {
     constructor() {
-        this.infoAPI = new InfoAPI()
-        
+        this.utilsAPI = new UtilsAPI()
+        this.firebaseAPI = new FirebaseAPI()
         // Automatically set the listeners
         this.setRenderersListeners();
     }
@@ -19,5 +20,6 @@ const mainAPI = new MainAPI();
 
 // Make the api accessible for the renderers
 contextBridge.exposeInMainWorld("api", {
-    info : mainAPI.infoAPI
+    utils : mainAPI.utilsAPI,
+    firebase : mainAPI.firebaseAPI
 })

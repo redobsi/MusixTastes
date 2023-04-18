@@ -1,6 +1,6 @@
 const { ipcMain } = require('electron');
 
-class InfoIPC{
+class UtilsIPC{
     constructor() {
         this.addTellListener();
     }
@@ -13,4 +13,4 @@ class InfoIPC{
     }
 }
 
-module.exports = InfoIPC
+module.exports = UtilsIPC

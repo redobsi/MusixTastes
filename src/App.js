@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   const [currentUser, setCurrentUser] = useState("user_1")
-  const [currentMusic, setCurrentMusic] = useState("")
 
   return (
       <div className='container'>
