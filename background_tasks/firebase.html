@@ -12,7 +12,8 @@
             try {
                 const parsedJSON = JSON.parse(results);
                 // Set up IPC to send result to JS via bouncing it off main process
-                ipcRenderer.send('ONE_SHOT_RESULT', { data: parsedJSON });
+                ipcRenderer.send('FIREBASE_RESULT', { data: parsedJSON });
+                console.log("message sent")
             } catch (error) {
                 log.error(error);
             }

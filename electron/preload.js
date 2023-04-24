@@ -1,7 +1,7 @@
-const { contextBridge } = require("electron");
+const { contextBridge, ipcRenderer } = require("electron");
 const UtilsAPI = require("./api_functions/utils_api.test");
 const FirebaseAPI = require("./api_functions/firebase_api");
-
+const loadBalancer = require("electron-load-balancer")
 // Window Application Interface
 class MainAPI {
     constructor() {
@@ -12,11 +12,15 @@ class MainAPI {
     }
 
     setRenderersListeners() {
-        // Set the Renderers Listeners
+        // Set the Renderers Listeners*
+        ipcRenderer.on('BOUNCE_TO_RENDERER', (event, args) => {
+            console.log(args);
+        })
     }
 }
 
 const mainAPI = new MainAPI();
+
 
 // Make the api accessible for the renderers
 contextBridge.exposeInMainWorld("api", {

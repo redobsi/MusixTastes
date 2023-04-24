@@ -3,37 +3,24 @@ const loadBalancer = require('electron-load-balancer')
 
 class FirebaseAPI {
   constructor() {
-    this.getMusics = this.getMusics
     this.processName = 'firebase'
-
+    this.getData = this.getData
     // Creates the renderer process
-    this.startProcess();
-  }
-  
-  // Possible adds : abstract and inheritance
-  startProcess() {
     loadBalancer.start(
       ipcRenderer,
       this.processName,
-      {/* Add data here if there is requirements */}
+      {command:'BASIC_GET', data:{}}
     );
   }
-
-  // API Methods
-  getMusics(user_name) {
-    // TO ADD: get musics via the background process
-
-  };
-
-  /* -- JUNK CODE --
   
-  stopProcess() {
-    loadBalancer.stop(
+  getData(data) {
+    loadBalancer.sendData(
       ipcRenderer,
-      this.processName
+      this.processName,
+      data
     )
-  }*/
-
+  }
+  
 }
   
 module.exports = FirebaseAPI;

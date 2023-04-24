@@ -1,7 +1,7 @@
 {
   "name": "musix-tastes",
   "version": "0.1.0",
-  "main": "electron/index.js",
+  "main": "electron/main.js",
   "author": "Red0bsi",
   "build": {
     "appId": "musix.tastes"

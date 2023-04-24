@@ -27,18 +27,19 @@ export default class BackgroundScript {
         });
     }
 
-    // Start the one-shot background task
+    // Start the background task
     start() {
         // Set up load balancing for the task
         loadBalancer.job(
             ipcRenderer,
             this.PROCESS_NAME, 
-            () => {
+            (values) => {
                 loadBalancer.onReceiveData(
                     ipcRenderer,
                     this.PROCESS_NAME,
                     this.onDataReceived.bind(this)
                 )
+                this.onDataReceived(values)
                 // Hook to receive error from Python realm
                 this.pyshell.on('stderr', this.onPythonStderr.bind(this));
 
@@ -68,7 +69,7 @@ export default class BackgroundScript {
 
     // Callback for Python when data is received 
     onDataReceived(data) {
-        log.info({ data });
+        //log.info({ data });
         this.pyshell.send(JSON.stringify(data));
     }
 
