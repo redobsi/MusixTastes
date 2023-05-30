@@ -1,5 +1,6 @@
 import {useState, Fragment} from 'react';
 import Playlist from './components/Playlist';
+import { formatTitle } from "../utils"
 
 import '../styles/playlists.css'
 
@@ -9,21 +10,6 @@ const Playlists = ({current_user}) => {
   const [trendingListeners, setTrendingListeners] = useState('32,500');
   const [playlists, setPlaylists] = useState(["My Playlist", "Second Playlist", "More Playlist"]);
   const MAX_LENGTH = 12; // Maximum length before line break
-  
-  function formatTitle(title) {
-    const lines = [];
-    let startIndex = 0;
-    
-    // Iterate over the title and split it into substrings of length MAX_LENGTH
-    while (startIndex < title.length) {
-      const endIndex = Math.min(startIndex + MAX_LENGTH, title.length);
-      const line = title.substring(startIndex, endIndex);
-      lines.push(line);
-      startIndex += MAX_LENGTH;
-    }
-    
-    return lines;
-  }
   
   return (
     <div className='playlist-page-container'>

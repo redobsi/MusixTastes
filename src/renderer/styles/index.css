@@ -2,6 +2,7 @@
     --background-color : #1F1F1F;
     --color-1: #141414;
     --color-2: #333333;
+    --color-3: #888888;
 }
 
 *{
@@ -88,7 +89,6 @@ body{
 
 .Mini-messages{
     color: white;
-    text-shadow: 0 0 3px #fff;
 }
 
 
@@ -272,3 +272,10 @@ body{
 ::-webkit-scrollbar {
     display: none;
   }
+
+#header-title {
+    font-size: 40px;
+}
+
+
+

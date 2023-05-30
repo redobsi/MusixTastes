@@ -1,5 +1,5 @@
 .main {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -13,16 +13,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 500px;
-  width: 90%;
+  width: 60vw;
   border-radius: 25px;
   padding: 40px;
   background-color: var(--color-1);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 
-.image {
+.profile-card > * {
   position: relative;
+  top: -150px;
+}
+
+.image {
   height: 200px;
   width: 200px;
   border-radius: 50%;
@@ -77,12 +80,15 @@
   font-size: 18px;
   font-weight: 600;
   color: #141414;
+  white-space: nowrap;
 }
 
 .info span {
   color: #FFFFFF;
   opacity: .5;
   font-weight: lighter;
+  width: fit-content;
+  white-space: nowrap;
 }
 
 .additional-info {
@@ -90,10 +96,11 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 20px;
+  width: 100%;
 }
 
 .additional-info .info {
-  flex: 0 0 50%;
+  flex: 0 0 50;
   margin-bottom: 10px;
 }
 
@@ -101,6 +108,7 @@
   font-size: 18px;
   font-weight: 600;
   color: #141414;
+  white-space: nowrap;
 }
 
 .additional-info .info a {
@@ -124,7 +132,7 @@
   border-radius: 25px;
   font-size: 18px;
   white-space: nowrap;
-  background: linear-gradient(to left, #33ccff 0%, #ff99cc 100%);
+  background: var(--color-2);
   transition: box-shadow 0.3s ease;
 }
 
@@ -150,4 +158,110 @@
   .data p {
     font-size: 16px;
   }
+
+}
+
+.info-separator {
+  width: 100%;
+  background-color: var(--color-1);
+  opacity: .5;
+  height: 4px;
+  border-radius: 100px;
+}
+
+/* The followings and musics style */
+
+.info-details {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.info-details > div {
+  margin: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 450px;
+  width: 45%;
+  align-items: center;
+}
+
+.header-profile {
+  position: relative;
+  top: -10%;
+  font-size: 35px;
+  color: white;
+  font-weight: bolder;
+  white-space: nowrap;
+}
+
+.profile-detail-wrapper {
+  background-color: var(--color-2);
+  padding: 20px;
+  margin: 0 20px;
+  border-radius: 25px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-detail-wrapper > div {
+  color: white;
+  font-size: large;
+
+}
+
+.following-artist-profile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.music-object-profile {
+  width: 100%;
+}
+
+.artist-obj {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}
+
+.following-artist-image {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  border-radius: 100px;
+
+}
+
+.music-obj {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-obj > div {
+  margin: 5px 15px;
+}
+
+.music-picture-profile {
+  height: 50px;
+  width: 50px;
+}
+
+.profile-music-name {
+  font-size: 23px;
+}
+.profile-music-author-name {
+  color: var(--color-3);
+  font-size: 17px;
+}
+
+.profile-music-timestamp {
+  color: var(--color-3);
+  font-size: 17px;
 }

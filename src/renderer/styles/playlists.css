@@ -74,7 +74,6 @@
 
 /* Trending block */
 .trending-block {
-    background: var(--pinky-white-linear);
     border-radius: 45px;
     padding: 25px 55px;
     color: white;

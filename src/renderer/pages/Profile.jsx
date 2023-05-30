@@ -1,4 +1,6 @@
 import React from 'react';
+import ProfileFollowing from './components/ProfileFollowing.jsx';
+import ProfileMusic from './components/ProfileMusic'
 import '../styles/profile.css';
 
 const Profile = () => {
@@ -7,14 +9,16 @@ const Profile = () => {
     title: 'Music Producer',
     bio: 'Passionate about creating awesome music and sharing it with the world.',
     following: 150,
+    followings: ['Artist 1'],
     followers: 5000,
-    posts: 209,
+    musics: 209,
+    owned_musics: ['Music 1'],
     website: 'https://www.example.com',
     location: 'Los Angeles, USA',
     email: 'red0bsi@example.com',
     socialMedia: [
-      { platform: 'Twitter', url: 'https://twitter.com/red0bsi' },
-      { platform: 'Instagram', url: 'https://instagram.com/red0bsi' },
+      { platform: 'Twitter', id: 'red0bsi' },
+      { platform: 'Instagram', id: 'red0bsi' },
     ],
   };
 
@@ -23,13 +27,16 @@ const Profile = () => {
     title,
     bio,
     following,
+    followings,
     followers,
-    posts,
+    musics,
+    owned_musics,
     website,
     location,
     email,
     socialMedia,
   } = current_user;
+
   return (
     <div className="main" style={{ backgroundColor: '#1F1F1F' }}>
       <div className="profile-card">
@@ -55,8 +62,22 @@ const Profile = () => {
             <span style={{ color: 'FFFFFF' }}>{followers}</span>
           </div>
           <div className="info">
-            <h3 style={{ color: '#FFFFFF' }}>Posts</h3>
-            <span style={{ color: 'FFFFFF' }}>{posts}</span>
+            <h3 style={{ color: '#FFFFFF' }}>Musics</h3>
+            <span style={{ color: 'FFFFFF' }}>{musics}</span>
+          </div>
+        </div>
+        <div className="info-details">
+          <div className="musics-details">
+            <div className="header-profile">Musics</div>
+            <div className="profile-detail-wrapper" id="musics-profile">
+              {owned_musics.map((music_name) => {return <ProfileMusic music_name={music_name}/>})}
+            </div>
+          </div>
+          <div className="follow-details">
+            <div className="header-profile">Followings</div>
+            <div className="profile-detail-wrapper" id="followings-profile">
+              {followings.map((following) => {return <ProfileFollowing following_artist={following}/>})}
+            </div>
           </div>
         </div>
         <div className="additional-info">
@@ -85,23 +106,16 @@ const Profile = () => {
               <h3 style={{ color: '#FFFFFF' }}>Social Media</h3>
               {socialMedia.map((social) => (
                 <a
+                  className="social-media-details"
                   key={social.platform}
-                  href={social.url}
-                  style={{ color: 'FFFFFF' }}
+                  style={{color: 'FFFFFF' }}
                 >
-                  {social.platform}
+                  {social.platform+' : '+social.id}
+                  <br/>
                 </a>
               ))}
             </div>
           )}
-        </div>
-        <div className="buttons">
-          <a href="#" className="btn">
-            Message
-          </a>
-          <a href="#" className="btn">
-            Follow Me
-          </a>
         </div>
       </div>
     </div>
